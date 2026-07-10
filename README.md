@@ -50,7 +50,7 @@ O `RandomForestClassifier` otimizado via `CrossValidator` demonstrou a melhor pe
 
 ### Matriz de Confusão do Modelo Final (RandomForest)
 
-![Matriz de Confusão RandomForest](https://github.com/seu-usuario/seu-repositorio/blob/main/images/matriz_confusao_rf.png.png?raw=true) <!-- Certifique-se de que o caminho para a imagem esteja correto no seu repositório GitHub -->
+![Matriz de Confusão RandomForest]([https://github.com/seu-usuario/seu-repositorio/blob/main/images/matriz_confusao_rf.png.png?raw=true](https://github.com/Johnny-DF26/Classificacao_Churn_PySpark/blob/main/images/matriz_confusao_rf.png)) <!-- Certifique-se de que o caminho para a imagem esteja correto no seu repositório GitHub -->
 
 
 ## 🔮 Classificando Novos Clientes
