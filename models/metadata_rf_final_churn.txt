@@ -1,0 +1,18 @@
+
+    'Modelo': 'RandomForestClassifier',
+    'Accuracy': 0.8183,
+    'Classification Report:
+              precision    recall  f1-score   support
+
+         0.0       0.79      0.77      0.78      1472
+         1.0       0.78      0.81      0.80      1528
+
+    accuracy                           0.79      3000
+   macro avg       0.79      0.79      0.79      3000
+weighted avg       0.79      0.79      0.79      3000
+
+    'featuresCol': 'features',
+    'labelCol':'Churn_bin',
+    'maxBins': 32,
+    'maxDepth': 10,
+    'numTrees': 50
