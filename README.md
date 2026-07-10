@@ -55,12 +55,68 @@ O `RandomForestClassifier` otimizado via `CrossValidator` demonstrou a melhor pe
 
 ## 🔮 Classificando Novos Clientes
 
-A seção final do notebook demonstra como usar o pipeline de pré-processamento e o modelo treinado para classificar um novo cliente e prever sua probabilidade de churn.
+Este guia descreve como utilizar o pipeline de pré-processamento e o modelo treinado para classificar o churn de novos clientes.
+
+### 1. Preparação
+
+Certifique-se de ter os seguintes arquivos salvos:
+- `pipeline_preprocess_churn` (Pipeline de pré-processamento)
+- `classificador_rf_final_churn` (Modelo de Classificação RandomForest)
+- `schema_churn.json` (Esquema dos dados originais)
+
+### 2. Carregar Pipeline e Modelo
+
+Carregue o pipeline de pré-processamento e o modelo de classificação salvos:
 
 ```python
-# Exemplo de predição para um novo cliente
-# [Adicione um GIF ou um screenshot aqui mostrando a predição de um novo cliente, por exemplo, o output da célula s5bxoM-k86Zy]
+from pyspark.ml.pipeline import PipelineModel
+from pyspark.ml.classification import RandomForestClassificationModel
+import json
+from pyspark.sql.types import StructType
+
+pipeline_preprocess = PipelineModel.load("pipeline_preprocess_churn")
+rf_model = RandomForestClassificationModel.load("classificador_rf_final_churn")
+
+with open("/content/schema_churn.json", "r") as f:
+    schema = StructType.fromJson(json.load(f))
 ```
+
+### 3. Preparar Novo Cliente para Predição
+
+Crie um DataFrame Spark com os dados do novo cliente, utilizando o esquema carregado, e aplique o pipeline de pré-processamento:
+
+```python
+novo_cliente_data = [
+    (
+        0, "Sim", "Sim", 36, "Nao", "Nao",
+        "FibraOptica", "Nao", "Sim", "Nao",
+        "Sim", "Nao", "Sim",
+        "Mensalmente", "Nao", "Boleto", 45.0
+    )
+]
+novo_cliente_df = spark.createDataFrame(novo_cliente_data, schema=schema)
+
+cliente_processado = pipeline_preprocess.transform(novo_cliente_df)
+cliente_processado.show()
+```
+
+### 4. Realizar Predição
+
+Utilize o modelo treinado para prever o churn do cliente e interprete o resultado:
+
+```python
+predicao = rf_model.transform(cliente_processado)
+valor_predicao = predicao.select("prediction").first()[0]
+probabilidade = predicao.select("probability").first()[0]
+
+print(f'Classificação:')
+if valor_predicao == 0.0:
+    print(f"Cliente NÃO irá cancelar o serviço com {probabilidade[0]*100:.2f}%")
+else:
+    print(f"Cliente irá cancelar o serviço {probabilidade[1]*100:.2f}%")
+```
+
+Este processo permite a classificação rápida de novos clientes para identificar o risco de churn.
 
 O modelo prevê se o cliente irá cancelar o serviço e com qual probabilidade, auxiliando na tomada de decisões estratégicas.
 
