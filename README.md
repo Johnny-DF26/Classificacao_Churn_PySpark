@@ -1,125 +1,459 @@
 # 📊 Previsão de Churn de Clientes com PySpark
 
-Este projeto demonstra a construção de um modelo de Machine Learning capaz de classificar clientes entre possíveis cancelamentos (churn) ou não, utilizando o framework PySpark para processamento e modelagem de dados em grande escala. O objetivo é identificar clientes com maior probabilidade de cancelar, permitindo que as equipes de marketing e relacionamento tomem ações proativas.
+<p align="center">
 
-## ✨ Funcionalidades
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![PySpark](https://img.shields.io/badge/PySpark-MLlib-orange?logo=apachespark)
+![Apache Spark](https://img.shields.io/badge/Apache-Spark-red?logo=apachespark)
+![Machine Learning](https://img.shields.io/badge/Machine-Learning-green)
+![Google Colab](https://img.shields.io/badge/Google-Colab-F9AB00?logo=googlecolab)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-- **Carregamento de Dados:** Leitura e inspeção inicial de um dataset de clientes.
-- **Pré-processamento:** Tratamento de valores binários e categóricos com `StringIndexer`, `OneHotEncoder` e `VectorAssembler` do PySpark MLlib.
-- **Pipeline de Dados:** Criação de um pipeline para automatizar as etapas de pré-processamento.
-- **Divisão Treino/Teste:** Separação do dataset para treinamento e avaliação do modelo.
-- **Modelagem:** Implementação e treinamento de modelos de `LogisticRegression` e `RandomForestClassifier`.
-- **Avaliação:** Análise de desempenho dos modelos utilizando `classification_report` e matrizes de confusão.
-- **Padronização de Features:** Avaliação do impacto do `StandardScaler` no desempenho da `LogisticRegression`.
-- **Otimização de Hiperparâmetros:** Uso de `CrossValidator` e `ParamGridBuilder` para tunar o `RandomForestClassifier`.
-- **Persistência de Modelos:** Salvamento e carregamento do pipeline de pré-processamento e do melhor modelo treinado.
-- **Predição em Novos Dados:** Demonstração de como classificar um novo cliente com o modelo final.
+</p>
 
-## 🛠️ Tecnologias Utilizadas
+---
 
-- **PySpark:** Para processamento distribuído e Machine Learning.
-- **Apache Spark MLlib:** Componente de Machine Learning do Spark.
-- **Pandas:** Para manipulação de DataFrames em algumas etapas de visualização.
-- **Scikit-learn:** Para métricas de avaliação (`classification_report`, `ConfusionMatrixDisplay`).
-- **Matplotlib:** Para visualização de dados (matrizes de confusão).
-- **Google Colab:** Ambiente de desenvolvimento.
+# 📖 Sobre o Projeto
 
-## 🚀 Como Rodar o Projeto
+Este projeto apresenta a construção de um pipeline completo de Machine Learning utilizando **PySpark MLlib** para prever o cancelamento (**Churn**) de clientes.
 
-### Instalação e Configuração
+O fluxo contempla desde o carregamento dos dados até a utilização do modelo treinado para realizar previsões em novos clientes.
 
-1.  **Ambiente:** O projeto foi desenvolvido e testado no Google Colab. Recomenda-se utilizá-lo para uma experiência mais fluida, pois já vem com muitos requisitos pré-instalados.
-2.  **PySpark:** A primeira célula do notebook instala o PySpark:
-    ```bash
-    !pip install pyspark
-    ```
-3.  **Download dos Dados:** Certifique-se de que o arquivo `dados_clientes.csv` esteja presente no diretório `/content/` do seu ambiente Colab, ou ajuste o caminho de leitura do DataFrame.
+O objetivo é demonstrar como desenvolver soluções escaláveis utilizando o Apache Spark para problemas de classificação em grandes volumes de dados.
 
-### Execução
+---
 
-Basta abrir o notebook (`seu_projeto_churn.ipynb`) no Google Colab e executar as células sequencialmente. O notebook é dividido em seções para facilitar a compreensão:
+# 🎯 Problema de Negócio
 
-1.  **Base de Dados:** Carregamento e exploração inicial.
-2.  **Transformando os Dados:** Pré-processamento e feature engineering.
-3.  **Machine Learning:** Treinamento, avaliação e otimização de modelos.
-4.  **Modelo Final:** Salvamento do modelo e previsão de novos dados.
+Empresas que trabalham com serviços recorrentes, como telecomunicações, streaming, bancos e planos de saúde, enfrentam constantemente o problema do cancelamento de clientes (**Customer Churn**).
 
-## 📈 Resultados e Conclusões
+Quando um cliente cancela um serviço, a empresa perde receita e precisa investir recursos para conquistar novos consumidores.
 
-O `RandomForestClassifier` otimizado via `CrossValidator` demonstrou a melhor performance, com uma acurácia de **~81.83%** no conjunto de teste. A padronização dos dados com `StandardScaler` não resultou em ganhos significativos para a `LogisticRegression` neste dataset.
+Diante desse cenário, o setor de Marketing solicitou o desenvolvimento de um modelo capaz de identificar antecipadamente quais clientes possuem maior probabilidade de cancelar seus contratos.
 
-### Matriz de Confusão do Modelo Final (RandomForest)
+Com essas informações é possível:
 
-![Matriz de Confusão RandomForest](https://github.com/Johnny-DF26/Classificacao_Churn_PySpark/blob/main/images/matriz_confusao_rf.png?raw=true)
+- Desenvolver campanhas de retenção;
+- Criar ofertas personalizadas;
+- Reduzir perdas financeiras;
+- Melhorar a experiência do cliente;
+- Apoiar decisões estratégicas baseadas em dados.
 
+---
 
-## 🔮 Classificando Novos Clientes
+# 💡 Por que utilizar PySpark?
 
-Este guia descreve como utilizar o pipeline de pré-processamento e o modelo treinado para classificar o churn de novos clientes.
+Embora este projeto utilize um conjunto de dados de tamanho reduzido para fins didáticos, ele foi desenvolvido utilizando **PySpark**, simulando um ambiente corporativo onde milhões de registros precisam ser processados.
 
-### 1. Preparação
+O Apache Spark oferece:
 
-Certifique-se de ter os seguintes arquivos salvos:
-- `pipeline_preprocess_churn` (Pipeline de pré-processamento)
-- `classificador_rf_final_churn` (Modelo de Classificação RandomForest)
-- `schema_churn.json` (Esquema dos dados originais)
+- Processamento distribuído
+- Alta escalabilidade
+- Paralelismo
+- Machine Learning distribuído
+- Excelente desempenho em Big Data
 
-### 2. Carregar Pipeline e Modelo
+Por esse motivo, a liderança técnica definiu a utilização do PySpark para construção do modelo.
 
-Carregue o pipeline de pré-processamento e o modelo de classificação salvos:
+---
 
-```python
-from pyspark.ml.pipeline import PipelineModel
-from pyspark.ml.classification import RandomForestClassificationModel
-import json
-from pyspark.sql.types import StructType
+# 🎯 Objetivos
 
-pipeline_preprocess = PipelineModel.load("pipeline_preprocess_churn")
-rf_model = RandomForestClassificationModel.load("classificador_rf_final_churn")
+Construir um pipeline completo de Machine Learning utilizando PySpark capaz de:
 
-with open("/content/schema_churn.json", "r") as f:
-    schema = StructType.fromJson(json.load(f))
+- Carregar os dados
+- Explorar o dataset
+- Preparar os dados
+- Construir features
+- Treinar modelos
+- Avaliar métricas
+- Realizar otimização de hiperparâmetros
+- Salvar o pipeline
+- Salvar o modelo
+- Classificar novos clientes
+
+---
+
+# 🛠 Tecnologias Utilizadas
+
+- Python
+- PySpark
+- Apache Spark MLlib
+- Pandas
+- NumPy
+- Matplotlib
+- Scikit-Learn
+- Google Colab
+
+---
+
+# 📂 Estrutura do Projeto
+
+```
+Classificacao_Churn_PySpark/
+
+│
+├── data/
+│   └── dados_clientes.csv
+│
+├── images/
+│   ├── matriz_confusao_rf.png
+│   ├── feature_importance.png
+│   └── pipeline.png
+│
+├── models/
+│   ├── pipeline_preprocess_churn/
+│   ├── classificador_rf_final_churn/
+│   └── schema_churn.json
+│
+├── notebook/
+│   └── churn_pyspark.ipynb
+│
+├── README.md
+│
+└── requirements.txt
 ```
 
-### 3. Preparar Novo Cliente para Predição
+---
 
-Crie um DataFrame Spark com os dados do novo cliente, utilizando o esquema carregado, e aplique o pipeline de pré-processamento:
+# ⚙️ Pipeline do Projeto
 
-```python
-novo_cliente_data = [
-    (
-        0, "Sim", "Sim", 36, "Nao", "Nao",
-        "FibraOptica", "Nao", "Sim", "Nao",
-        "Sim", "Nao", "Sim",
-        "Mensalmente", "Nao", "Boleto", 45.0
-    )
-]
-novo_cliente_df = spark.createDataFrame(novo_cliente_data, schema=schema)
+```
+CSV
 
-cliente_processado = pipeline_preprocess.transform(novo_cliente_df)
-cliente_processado.show()
+↓
+
+Leitura dos Dados
+
+↓
+
+Análise Exploratória
+
+↓
+
+StringIndexer
+
+↓
+
+OneHotEncoder
+
+↓
+
+VectorAssembler
+
+↓
+
+StandardScaler
+
+↓
+
+Treinamento
+
+↓
+
+Logistic Regression
+
+↓
+
+Random Forest
+
+↓
+
+Cross Validation
+
+↓
+
+Melhor Modelo
+
+↓
+
+Persistência
+
+↓
+
+Predição
 ```
 
-### 4. Realizar Predição
+---
 
-Utilize o modelo treinado para prever o churn do cliente e interprete o resultado:
+# 📊 Dataset
+
+O conjunto de dados contém informações dos clientes da empresa, incluindo características pessoais e contratuais.
+
+Exemplos de variáveis:
+
+| Variável | Descrição |
+|----------|-----------|
+| Genero | Sexo do cliente |
+| Idoso | Cliente possui mais de 65 anos |
+| Parceiro | Possui parceiro |
+| Dependentes | Possui dependentes |
+| TempoContrato | Tempo como cliente |
+| Internet | Tipo de internet |
+| SuporteTecnico | Possui suporte técnico |
+| StreamingTV | Possui Streaming |
+| TipoContrato | Mensal ou anual |
+| MetodoPagamento | Forma de pagamento |
+| Mensalidade | Valor mensal |
+| Churn | Variável alvo |
+
+---
+
+# 🔄 Pré-processamento
+
+Foi criado um Pipeline utilizando PySpark contendo:
+
+- StringIndexer
+- OneHotEncoder
+- VectorAssembler
+- StandardScaler (avaliado)
+- Pipeline MLlib
+
+O uso do Pipeline garante que exatamente as mesmas transformações sejam aplicadas durante o treinamento e também durante a inferência.
+
+---
+
+# 🤖 Modelos Treinados
+
+Foram avaliados dois algoritmos:
+
+## Logistic Regression
+
+Modelo linear utilizado como baseline.
+
+---
+
+## Random Forest
+
+Modelo baseado em árvores de decisão que apresentou melhor desempenho após otimização dos hiperparâmetros.
+
+---
+
+# 🔍 Otimização de Hiperparâmetros
+
+Foi utilizado:
+
+- ParamGridBuilder
+- CrossValidator
+
+Foram avaliadas diferentes combinações de:
+
+- Número de árvores
+- Profundidade máxima
+- Número de divisões
+- Estratégias de divisão
+
+---
+
+# 📈 Avaliação dos Modelos
+
+As métricas utilizadas foram:
+
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- Classification Report
+- Matriz de Confusão
+
+## Resultado Final
+
+| Modelo | Accuracy |
+|---------|-----------|
+| Logistic Regression | ~80% |
+| Random Forest | **81.83%** |
+
+---
+
+# 📷 Matriz de Confusão
+
+<p align="center">
+
+![Matriz de Confusão](images/matriz_confusao_rf.png)
+
+</p>
+
+---
+
+# 🌳 Importância das Variáveis
+
+O Random Forest permite identificar quais atributos mais contribuíram para a classificação.
+
+<p align="center">
+
+![Feature Importance](images/feature_importance.png)
+
+</p>
+
+---
+
+# 💾 Persistência do Modelo
+
+Após o treinamento foram salvos:
+
+- Pipeline de Pré-processamento
+- Modelo Random Forest
+- Schema original dos dados
+
+Isso permite realizar previsões futuras sem necessidade de novo treinamento.
+
+---
+
+# 🔮 Classificando Novos Clientes
+
+## Carregando Pipeline
+
+```python
+pipeline_preprocess = PipelineModel.load(
+    "pipeline_preprocess_churn"
+)
+```
+
+## Carregando Modelo
+
+```python
+rf_model = RandomForestClassificationModel.load(
+    "classificador_rf_final_churn"
+)
+```
+
+## Transformando os Dados
+
+```python
+cliente_processado = pipeline_preprocess.transform(
+    novo_cliente_df
+)
+```
+
+## Predição
 
 ```python
 predicao = rf_model.transform(cliente_processado)
-valor_predicao = predicao.select("prediction").first()[0]
-probabilidade = predicao.select("probability").first()[0]
-
-print(f'Classificação:')
-if valor_predicao == 0.0:
-    print(f"Cliente NÃO irá cancelar o serviço com {probabilidade[0]*100:.2f}%")
-else:
-    print(f"Cliente irá cancelar o serviço {probabilidade[1]*100:.2f}%")
 ```
 
-Este processo permite a classificação rápida de novos clientes para identificar o risco de churn.
+Resultado:
 
-O modelo prevê se o cliente irá cancelar o serviço e com qual probabilidade, auxiliando na tomada de decisões estratégicas.
+```
+Cliente irá cancelar o serviço.
 
-## 🤝 Contribuições
+Probabilidade: 87.43%
+```
 
-Contribuições são bem-vindas! Se você tiver sugestões, melhorias ou encontrar algum problema, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+---
+
+# 🚀 Como Executar
+
+## Clone o projeto
+
+```bash
+git clone https://github.com/Johnny-DF26/Classificacao_Churn_PySpark.git
+```
+
+---
+
+## Entre na pasta
+
+```bash
+cd Classificacao_Churn_PySpark
+```
+
+---
+
+## Instale o PySpark
+
+```python
+!pip install pyspark
+```
+
+---
+
+## Abra o Notebook
+
+Execute o notebook utilizando o Google Colab.
+
+---
+
+# 📌 Resultados Obtidos
+
+✔ Pipeline completo em PySpark
+
+✔ Pré-processamento automatizado
+
+✔ Comparação entre modelos
+
+✔ Cross Validation
+
+✔ Persistência do Pipeline
+
+✔ Persistência do Modelo
+
+✔ Predição de novos clientes
+
+✔ Pipeline reutilizável
+
+---
+
+# ⚠️ Limitações
+
+Este projeto possui finalidade educacional.
+
+Algumas melhorias possíveis:
+
+- Utilização de XGBoost
+- Balanceamento de classes
+- Feature Selection
+- SHAP Values
+- Deploy em API
+- Monitoramento do modelo
+- MLflow
+
+---
+
+# 🚀 Trabalhos Futuros
+
+- Deploy utilizando FastAPI
+- Docker
+- MLflow
+- Airflow
+- Dashboard em Streamlit
+- API REST
+- Pipeline automatizado
+- Integração com banco de dados
+
+---
+
+# 🤝 Contribuições
+
+Contribuições são muito bem-vindas.
+
+Caso tenha sugestões de melhorias:
+
+- Abra uma Issue
+- Faça um Fork
+- Envie um Pull Request
+
+---
+
+# 👨‍💻 Autor
+
+**John**
+
+Cientista de Dados em formação.
+
+GitHub:
+
+https://github.com/Johnny-DF26
+
+LinkedIn:
+
+https://linkedin.com/in/datasciencejohnny
+
+---
+
+# 📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+---
+
+## ⭐ Se este projeto foi útil para você, deixe uma estrela no repositório!
