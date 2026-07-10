@@ -424,7 +424,7 @@ Caso tenha sugestões de melhorias:
 
 # 👨‍💻 Autor
 
-**John**
+**Johnny**
 
 Cientista de Dados em formação.
 
