@@ -275,18 +275,6 @@ As métricas utilizadas foram:
 
 ---
 
-# 🌳 Importância das Variáveis
-
-O Random Forest permite identificar quais atributos mais contribuíram para a classificação.
-
-<p align="center">
-
-![Feature Importance](images/feature_importance.png)
-
-</p>
-
----
-
 # 💾 Persistência do Modelo
 
 Após o treinamento foram salvos:
