@@ -1,6 +1,6 @@
+<div align="center">
 # 📊 Previsão de Churn de Clientes com PySpark
 
-<p align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![PySpark](https://img.shields.io/badge/PySpark-MLlib-orange?logo=apachespark)
@@ -9,7 +9,7 @@
 ![Google Colab](https://img.shields.io/badge/Google-Colab-F9AB00?logo=googlecolab)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-</p>
+</div>
 
 ---
 
